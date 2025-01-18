@@ -1,16 +1,25 @@
 <template>
   <div class="options-container">
     <ul>
-      <li>Opcion 1</li>
-      <li>Opcion 2</li>
-      <li>Opcion 3</li>
-      <li>Opcion 4</li>
+      <li @click="seleccionado" v-for="pokemon in arregloPokemons" :key="pokemon.id">{{pokemon.nombre}}</li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:{
+    arregloPokemons:{
+      type: Array,
+      required: true
+    }
+  },
+  methods:{
+    seleccionado(){
+      console.log("Hizo click");
+    }
+  }
+};
 </script>
 <style>
 ul {
