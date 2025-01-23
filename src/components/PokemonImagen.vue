@@ -7,6 +7,11 @@
 
 <script>
 export default {
+   data() {
+    return {
+      propPrueba: "Este texto es de prueba",
+    };
+  },
   props: {
     pokemonId: {
       type: Number,
@@ -14,7 +19,8 @@ export default {
     },
     showPokemon:{
         type: Boolean,
-        required:true
+        required:true,
+        default: false
     }
   },
   computed: {
@@ -23,6 +29,11 @@ export default {
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${this.pokemonId}.svg`;
     },
   },
+  methods: {
+    metodoPrueba() {
+      console.log("Este es un metodo de prueba ejecutado desde el padre");
+    },
+  }
 };
 </script>
 
