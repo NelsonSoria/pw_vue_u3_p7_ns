@@ -38,3 +38,15 @@ export const insertarFachada = async (body) => {
     return await insertar(body);
 
 }
+
+export const actualizarFachada = async (id,body) => {
+    return await actualizar(id,body);
+
+}
+export const actualizarParcialFachada = async (id,body) => {
+    return await actualizarParcial(id,body);
+}
+
+export const eliminarFachada = async (id) => {
+    return await eliminar(id);
+}

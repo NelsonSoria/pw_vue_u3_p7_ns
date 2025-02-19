@@ -3,16 +3,20 @@
     <div class="container-formulario">
       <p type="Id:"><input type="number" v-model="id" /></p>
       <p type="Nombre:"><input type="text" v-model="nombre" /></p>
-      <p type="Fecha Nacimiento:"><input type="date" v-model="fecha" /></p>
+      <p type="Fecha Nacimiento:"><input type="text
+      " v-model="fechaNacimiento" /></p>
       <p type="Apellido:"><input type="text" v-model="apellido" /></p>
       <button @click="buscar()">buscar</button>
       <button @click="guardar()">Guardar</button>
+      <button @click="actualizar()">actualizar</button>
+      <button @click="actualizarParcial()">actualizarParcial</button>
+      <button @click="eliminar()">eliminar</button>
     </div>
   </div>
 </template>
 
 <script>
-import { obtenerPorIdFachada,insertarFachada } from "@/client/PersonaClient.js";
+import { obtenerPorIdFachada,insertarFachada, actualizarFachada, actualizarParcialFachada ,eliminarFachada} from "@/client/PersonaClient.js";
 export default {
   mounted() {
     console.log("Antes de llamar a la API");
@@ -22,31 +26,49 @@ export default {
     return {
       id: "",
       nombre: "",
-      fecha: "",
+      fechaNacimiento: "",
       apellido: "",
     };
   },
   methods: {
     async buscar() {
+      console.log("buscar");
       const data = await obtenerPorIdFachada(this.id);
       this.nombre = data.nombre;
-      this.fecha = data.fechaNacimiento;
-      const fechaObjeto = new Date(this.fecha);
-
-      const fechaFormateada = fechaObjeto.toLocaleDateString();
-      console.log(fechaFormateada);
-      this.fecha=fechaFormateada;
+      this.fechaNacimiento = data.fechaNacimiento; 
       
       this.apellido = data.apellido;
     },
     async guardar (){
+      console.log("guardar");
       const bodyPersona = {
         nombre: this.nombre,
-        fechaNacimiento:this.fecha,
+        fechaNacimiento:this.fechaNacimientoISO,
         apellido: this.apellido
       };
-      await insertarFachada();
-    }
+      await insertarFachada(bodyPersona);
+    },
+   async actualizar() {
+      console.log("Actualizar");
+      const bodyPersona = {
+        id: this.id,
+        nombre: this.nombre,
+        apellido: this.apellido,
+        fechaNacimiento: this.fechaNacimiento,
+      };
+      await actualizarFachada(this.id, bodyPersona);
+    },
+    async actualizarParcial() {
+      console.log("ActualizarParcial");
+      const bodyPersona = {
+        nombre: this.nombre,
+      };
+      await actualizarParcialFachada(this.id, bodyPersona);
+    },
+    async eliminar() {
+      console.log("Eliminar");
+      await eliminarFachada(this.id);
+    },
   },
 };
 </script>
